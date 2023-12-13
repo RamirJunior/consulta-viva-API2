@@ -12,7 +12,7 @@ namespace consulta_viva_API2.Services.Impl
             _repository = iUserRepository;
         }
 
-        public Consulta? Atender(int consultaId) {
+        public Consulta? AtenderConsulta(int consultaId) {
             var consulta = _repository.Atender(consultaId);
             if(consulta != null) {
                 var consultaAtualizada = AtualizarStatus(consulta);
@@ -21,7 +21,7 @@ namespace consulta_viva_API2.Services.Impl
             return consulta;
         }
 
-        public List<Consulta> ListarConsulta() {
+        public List<Consulta> ListarConsultas() {
             throw new NotImplementedException();
         }
 
@@ -33,7 +33,7 @@ namespace consulta_viva_API2.Services.Impl
             return _repository.SalvarMedico(medico);
         }
 
-        private Consulta AtualizarStatus(Consulta consulta) {
+        internal Consulta AtualizarStatus(Consulta consulta) {
             if(consulta.Status == Models.Enums.StatusConsulta.Finalizada)
                 return consulta;
             

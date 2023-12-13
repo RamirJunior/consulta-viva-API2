@@ -3,9 +3,9 @@ using consulta_viva_API2.Repositories;
 
 namespace consulta_viva_API2.Services {
     public interface IMedicoService {
-        Consulta Atender(int consultaId);
+        Consulta AtenderConsulta(int consultaId);
         List<Medico> ListarMedicos();
         Medico SalvarMedico(Medico medico);
-        List<Consulta> ListarConsulta();
+        List<Consulta> ListarConsultas();
     }
 }

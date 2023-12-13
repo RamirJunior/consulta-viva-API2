@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace consulta_viva_API2.Controllers
 {
-    [Route("api/medico")]
+    [Route("api/[controller]")]
     [ApiController]
     public class MedicoController : ControllerBase {
 
@@ -31,7 +31,7 @@ namespace consulta_viva_API2.Controllers
 
         [HttpPatch]
         public ActionResult<Consulta> AtenderConsulta(int consultaId) {
-            Consulta consultaAtualizada = _service.Atender(consultaId);
+            Consulta consultaAtualizada = _service.AtenderConsulta(consultaId);
             return Ok(consultaAtualizada);
         }
     }

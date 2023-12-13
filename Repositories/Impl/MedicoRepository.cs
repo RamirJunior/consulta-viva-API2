@@ -14,6 +14,12 @@ namespace consulta_viva_API2.Repositories.Impl {
             return _context.Consultas.Find(consultaId);
         }
 
+        public Consulta AtualizarConsulta(Consulta consulta) {
+            _context.Consultas.Update(consulta);
+            _context.SaveChanges();
+            return consulta;
+        }
+
         public List<Consulta> ListarConsultas() {
             return _context.Consultas.ToList();
         }
