@@ -1,43 +1,61 @@
-﻿using consulta_viva_API2.Models;
+﻿using AutoMapper;
+using consulta_viva_API2.Configuration.Util;
+using consulta_viva_API2.Models;
+using consulta_viva_API2.Models.Dto;
 using consulta_viva_API2.Repositories;
-using consulta_viva_API2.Repositories.Impl;
 
-namespace consulta_viva_API2.Services.Impl
-{
+namespace consulta_viva_API2.Services.Impl {
     public class MedicoService : IMedicoService {
 
         private readonly IMedicoRepository _repository;
+        private readonly IMapper _mapper;
 
-        public MedicoService(IMedicoRepository iUserRepository) {
-            _repository = iUserRepository;
-        }
+        public MedicoService(IMedicoRepository iUserRepository) => _repository = iUserRepository;
+        public MedicoService(IMapper mapper) => _mapper = mapper;
 
-        public Consulta? AtenderConsulta(int consultaId) {
+        public ConsultaDto? AtenderConsulta(int consultaId) {
             var consulta = _repository.Atender(consultaId);
-            if(consulta != null) {
-                var consultaAtualizada = AtualizarStatus(consulta);
-                consulta = _repository.AtualizarConsulta(consultaAtualizada);
-            }            
-            return consulta;
+            if (consulta == null)
+                return null;
+
+            var consultaAtualizada = AtualizarStatusConsulta(consulta);
+            consulta = _repository.AtualizarConsulta(consultaAtualizada);
+            return _mapper.Map<ConsultaDto>(consulta);
         }
 
-        public List<Consulta> ListarConsultas() {
-            throw new NotImplementedException();
+        public List<ConsultaDto> ListarConsultas() {
+            List<ConsultaDto> consultasDto = new List<ConsultaDto>();
+            var consultas = _repository.ListarConsultas();
+
+            consultas.ForEach(consulta =>
+                consultasDto.Add(_mapper.Map<ConsultaDto>(consulta)));
+
+            return consultasDto;
         }
 
-        public List<Medico> ListarMedicos() {
-            return _repository.ListarMedicos();
+        public List<MedicoDto> ListarMedicos() {
+            List<MedicoDto> medicosDto = new List<MedicoDto>();
+            var medicos = _repository.ListarMedicos();
+
+            medicos.ForEach(medico =>
+                medicosDto.Add(_mapper.Map<MedicoDto>(medico)));
+
+            return medicosDto;
         }
 
-        public Medico SalvarMedico(Medico medico) {
-            return _repository.SalvarMedico(medico);
+        public MedicoDto SalvarMedico(MedicoDto medicoDto) {
+            var medico = _mapper.Map<Medico>(medicoDto); 
+            _repository.SalvarMedico(medico);
+            return medicoDto;
         }
 
-        internal Consulta AtualizarStatus(Consulta consulta) {
-            if(consulta.Status == Models.Enums.StatusConsulta.Finalizada)
-                return consulta;
-            
-            consulta.Status = Models.Enums.StatusConsulta.EmAtendimento;
+        private Consulta AtualizarStatusConsulta(Consulta consulta) {
+            consulta.Status =
+                consulta.Status switch {
+                    Constants.Finalizado => consulta.Status,
+                    Constants.EmAtendimento => Constants.Finalizado,
+                    _ => Constants.EmAtendimento
+                };
             return consulta;
         }
     }

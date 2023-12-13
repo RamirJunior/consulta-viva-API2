@@ -1,4 +1,5 @@
 ﻿using consulta_viva_API2.Models;
+using consulta_viva_API2.Models.Dto;
 using Microsoft.EntityFrameworkCore;
 
 namespace consulta_viva_API2.Repositories {

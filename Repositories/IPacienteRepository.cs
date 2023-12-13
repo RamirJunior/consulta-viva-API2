@@ -6,6 +6,7 @@ namespace consulta_viva_API2.Repositories {
         public Paciente AdicionarPaciente(Paciente paciente);
         public List<Consulta> BuscarConsultaPorPaciente(int pacienteId);
         public Paciente? BuscarPacientePorId(int pacienteId);
+        public List<Consulta> ListarConsultasPorPaciente();
         public List<Paciente> ListarPacientes();
         public Consulta SalvarConsulta(Consulta consulta);
     }

@@ -8,6 +8,6 @@ namespace consulta_viva_API2.Models {
         public int PacienteId { get; set; }
         public DateTime DataConsulta { get; set; }
         public Paciente Paciente { get; set; }
-        public StatusConsulta Status { get; set; }
+        public string Status { get; set; }
     }
 }

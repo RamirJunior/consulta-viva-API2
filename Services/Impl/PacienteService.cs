@@ -1,25 +1,43 @@
-﻿using consulta_viva_API2.Models;
+﻿using AutoMapper;
+using consulta_viva_API2.Configuration.Util;
+using consulta_viva_API2.Models;
+using consulta_viva_API2.Models.Dto;
 using consulta_viva_API2.Repositories;
 
 namespace consulta_viva_API2.Services.Impl {
     public class PacienteService : IPacienteService {
 
         private readonly IPacienteRepository _repository;
+        private readonly IMapper _mapper;
 
-        public PacienteService(IPacienteRepository pacienteRepository) {
-            _repository = pacienteRepository;
+        public PacienteService(IPacienteRepository pacienteRepository) => _repository = pacienteRepository;
+        public PacienteService(IMapper mapper) => _mapper = mapper;
+        
+        public PacienteDto AdicionarPaciente(PacienteDto pacienteDto) {
+            var paciente = _mapper.Map<Paciente>(pacienteDto);
+            _repository.AdicionarPaciente(paciente);
+            return pacienteDto;
         }
 
-        public Paciente AdicionarPaciente(Paciente paciente) {
-            return _repository.AdicionarPaciente(paciente);
+        public List<ConsultaDto> BuscarConsultaPorPaciente(int pacienteId) {
+
+            List<ConsultaDto> consultasDto = new List<ConsultaDto>();
+            var consultas = _repository.BuscarConsultaPorPaciente(pacienteId);
+
+            consultas.ForEach(consulta =>
+                consultasDto.Add(_mapper.Map<ConsultaDto>(consulta)));
+
+            return consultasDto;
         }
 
-        public List<Consulta> BuscarConsultaPorPaciente(int pacienteId) {
-            throw new NotImplementedException();
-        }
+        public List<PacienteDto> ListarPacientes() {
+            List<PacienteDto> pacientesDto = new List<PacienteDto>();
+            var pacientes = _repository.ListarPacientes();
+            
+            pacientes.ForEach(paciente =>
+                pacientesDto.Add(_mapper.Map<PacienteDto>(paciente)));
 
-        public List<Paciente> ListarPacientes() {
-            return _repository.ListarPacientes();
+            return pacientesDto;
         }
 
         public Consulta? MarcarConsulta(int pacienteId, Consulta consulta) {
@@ -34,7 +52,7 @@ namespace consulta_viva_API2.Services.Impl {
 
         private Consulta VincularPacienteConsulta(Paciente paciente, Consulta consulta) {
             consulta.Paciente = paciente;
-            consulta.Status = Models.Enums.StatusConsulta.Aguardando;
+            consulta.Status = Constants.Aguardando;
             return consulta;
         }
     }

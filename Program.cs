@@ -14,12 +14,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Resources
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+// Connection DB Context
 var connectionString = builder.Configuration.GetConnectionString("Database");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
 
+// Business Application Services
 builder.Services.AddTransient<IMedicoRepository, MedicoRepository>();
 builder.Services.AddScoped<IMedicoService, MedicoService>();
-
 builder.Services.AddTransient<IPacienteRepository, PacienteRepository>();
 builder.Services.AddScoped<IPacienteService, PacienteService>();
 

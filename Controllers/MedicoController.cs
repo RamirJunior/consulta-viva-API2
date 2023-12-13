@@ -1,8 +1,5 @@
-﻿using consulta_viva_API2.Data;
-using consulta_viva_API2.Models;
+﻿using consulta_viva_API2.Models.Dto;
 using consulta_viva_API2.Services;
-using consulta_viva_API2.Services.Impl;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace consulta_viva_API2.Controllers
@@ -18,21 +15,21 @@ namespace consulta_viva_API2.Controllers
         }
         
         [HttpPost]
-        public ActionResult<Medico> AdicionarMedico([FromBody] Medico medico) {
-            Medico medicoAdicionado = _service.SalvarMedico(medico);
-            return Ok(medicoAdicionado);
+        public ActionResult<MedicoDto> AdicionarMedico([FromBody] MedicoDto medicoRequest) {
+            MedicoDto medicoDto = _service.SalvarMedico(medicoRequest);
+            return Ok(medicoDto);
         }
 
         [HttpGet]
-        public ActionResult<List<Medico>> ListarMedicos() {
-            List<Medico> medicos = _service.ListarMedicos();
-            return Ok(medicos);
+        public ActionResult<List<MedicoDto>> ListarMedicos() {
+            List<MedicoDto> medicosDto = _service.ListarMedicos();
+            return Ok(medicosDto);
         }
 
-        [HttpPatch]
-        public ActionResult<Consulta> AtenderConsulta(int consultaId) {
-            Consulta consultaAtualizada = _service.AtenderConsulta(consultaId);
-            return Ok(consultaAtualizada);
+        [HttpPut]
+        public ActionResult<ConsultaDto> AtenderConsulta(int consultaId) {
+            ConsultaDto consultaDto = _service.AtenderConsulta(consultaId);
+            return Ok(consultaDto);
         }
     }
 }

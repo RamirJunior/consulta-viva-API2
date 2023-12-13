@@ -6,14 +6,18 @@ namespace consulta_viva_API2.Repositories.Impl {
 
         private readonly ApplicationDbContext _context;
 
-        public PacienteRepository(ApplicationDbContext applicationDbContext) {
-            _context = applicationDbContext;
-        }
+        public PacienteRepository(ApplicationDbContext applicationDbContext) => _context = applicationDbContext;
 
         public Paciente AdicionarPaciente(Paciente paciente) {
             _context.Pacientes.Add(paciente);
             _context.SaveChanges();
             return paciente;
+        }
+
+        public Consulta SalvarConsulta(Consulta consulta) {
+            _context.Consultas.Add(consulta);
+            _context.SaveChanges();
+            return consulta;
         }
 
         public List<Consulta> BuscarConsultaPorPaciente(int pacienteId) {
@@ -22,12 +26,6 @@ namespace consulta_viva_API2.Repositories.Impl {
 
         public List<Paciente> ListarPacientes() {
             return _context.Pacientes.ToList();
-        }
-
-        public Consulta SalvarConsulta(Consulta consulta) {
-            _context.Consultas.Add(consulta);
-            _context.SaveChanges();
-            return consulta;
         }
 
         public Paciente? BuscarPacientePorId(int pacienteId) {
