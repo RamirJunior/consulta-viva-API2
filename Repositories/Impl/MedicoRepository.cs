@@ -14,6 +14,10 @@ namespace consulta_viva_API2.Repositories.Impl {
             return _context.Consultas.Find(consultaId);
         }
 
+        public List<Consulta> ListarConsultas() {
+            return _context.Consultas.ToList();
+        }
+
         public List<Medico> ListarMedicos() {
             return _context.Medicos.ToList();
         }
@@ -22,6 +26,10 @@ namespace consulta_viva_API2.Repositories.Impl {
             _context.Medicos.Add(medico);
             _context.SaveChanges();
             return medico;
+        }
+
+        internal void SalvarRegistro() {
+            _context.SaveChanges(true);
         }
     }
 }

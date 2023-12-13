@@ -6,5 +6,6 @@ namespace consulta_viva_API2.Services {
         Consulta Atender(int consultaId);
         List<Medico> ListarMedicos();
         Medico SalvarMedico(Medico medico);
+        List<Consulta> ListarConsulta();
     }
 }

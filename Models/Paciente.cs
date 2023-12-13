@@ -2,6 +2,6 @@
     public class Paciente {
         public int PacienteId { get; set; }
         public string Nome { get; set; }
-        public ICollection<Consulta> Consultas { get; set; }
+        public List<Consulta> Consultas { get; set; }
     }
 }

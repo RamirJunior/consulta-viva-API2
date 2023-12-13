@@ -14,11 +14,15 @@ namespace consulta_viva_API2.Services.Impl
 
         public Consulta? Atender(int consultaId) {
             var consulta = _repository.Atender(consultaId);
-            if(consulta != null)
-                AtualizarStatus(consulta);
-            
-            // TODO: salvar consulta atualizada no banco
+            if(consulta != null) {
+                var consultaAtualizada = AtualizarStatus(consulta);
+                consulta = _repository.AtualizarConsulta(consultaAtualizada);
+            }            
             return consulta;
+        }
+
+        public List<Consulta> ListarConsulta() {
+            throw new NotImplementedException();
         }
 
         public List<Medico> ListarMedicos() {
