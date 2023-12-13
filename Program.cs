@@ -20,6 +20,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql
 builder.Services.AddTransient<IMedicoRepository, MedicoRepository>();
 builder.Services.AddScoped<IMedicoService, MedicoService>();
 
+builder.Services.AddTransient<IPacienteRepository, PacienteRepository>();
+builder.Services.AddScoped<IPacienteService, PacienteService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
