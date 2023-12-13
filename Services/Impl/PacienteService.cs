@@ -23,16 +23,18 @@ namespace consulta_viva_API2.Services.Impl {
         }
 
         public Consulta? MarcarConsulta(int pacienteId, Consulta consulta) {
-            var paciente = _repository.BuscarPacientePorId(pacienteId);
-            if (paciente == null) return null;
-            
+            Paciente paciente = _repository.BuscarPacientePorId(pacienteId);
+            if (paciente == null) 
+                return null;
+             
+            consulta.PacienteId = (int)paciente.PacienteId;
             var consultaVinculada = VincularPacienteConsulta(paciente, consulta);
             return _repository.SalvarConsulta(consultaVinculada);
         }
 
         private Consulta VincularPacienteConsulta(Paciente paciente, Consulta consulta) {
-            consulta.PacienteId = paciente.PacienteId;
             consulta.Paciente = paciente;
+            consulta.Status = Models.Enums.StatusConsulta.Aguardando;
             return consulta;
         }
     }
