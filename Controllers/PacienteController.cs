@@ -25,5 +25,11 @@ namespace consulta_viva_API2.Controllers {
             var pacientes = _service.ListarPacientes();
             return Ok(pacientes);
         }
+
+        [HttpPost("/{pacienteId}")]
+        public ActionResult<Paciente> MarcarConsulta(int pacienteId, [FromBody] Consulta consulta) {
+            var pacienteConsultaMarcada = _service.MarcarConsulta(pacienteId, consulta);
+            return Ok(pacienteConsultaMarcada);
+        }
     }
 }

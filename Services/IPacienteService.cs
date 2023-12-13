@@ -3,7 +3,7 @@
 namespace consulta_viva_API2.Services {
     public interface IPacienteService {
         public Paciente AdicionarPaciente(Paciente paciente);
-        public Paciente MarcarConsulta(int pacienteId);
+        public Consulta MarcarConsulta(int pacienteId, Consulta consulta);
         public List<Consulta> BuscarConsultaPorPaciente(int pacienteId);
         public List<Paciente> ListarPacientes();
     }

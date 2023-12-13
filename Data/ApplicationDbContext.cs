@@ -21,29 +21,27 @@ namespace consulta_viva_API2.Data {
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
             modelBuilder.Entity<Medico>(medico => {
-                medico.Property(m => m.MedicoId)
-                      .ValueGeneratedOnAdd();
-
-                medico.Property(m => m.Nome)
-                      .IsRequired();
+                medico.Property(m => m.MedicoId).ValueGeneratedOnAdd();
+                medico.Property(m => m.Nome).IsRequired();
             });
 
             modelBuilder.Entity<Paciente>(paciente => {
-                paciente.Property(p => p.PacienteId)
-                        .ValueGeneratedOnAdd();
-
-                paciente.Property(p => p.Nome)
-                        .IsRequired();
+                paciente.Property(p => p.PacienteId).ValueGeneratedOnAdd();
+                paciente.Property(p => p.Nome) .IsRequired();
             });
                 
             modelBuilder.Entity<Consulta>(consulta => {
+                consulta.Property(c => c.ConsultaId).ValueGeneratedOnAdd();
+                consulta.Property(c => c.PacienteId).IsRequired();
+                consulta.Property(c => c.DataConsulta).IsRequired();
+                consulta.Property(c => c.Status).IsRequired();
+
                 consulta.HasOne(c => c.Paciente)
                 .WithMany(p => p.Consultas)
                 .IsRequired();
 
                 consulta.HasOne(c => c.Medico)
-                .WithMany(m => m.Consultas)
-                .IsRequired();
+                .WithMany(m => m.Consultas);
             });
         }
     }

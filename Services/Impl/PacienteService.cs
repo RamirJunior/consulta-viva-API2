@@ -22,8 +22,18 @@ namespace consulta_viva_API2.Services.Impl {
             return _repository.ListarPacientes();
         }
 
-        public Paciente MarcarConsulta(int pacienteId) {
-            throw new NotImplementedException();
+        public Consulta? MarcarConsulta(int pacienteId, Consulta consulta) {
+            var paciente = _repository.BuscarPacientePorId(pacienteId);
+            if (paciente == null) return null;
+            
+            var consultaVinculada = VincularPacienteConsulta(paciente, consulta);
+            return _repository.SalvarConsulta(consultaVinculada);
+        }
+
+        private Consulta VincularPacienteConsulta(Paciente paciente, Consulta consulta) {
+            consulta.PacienteId = paciente.PacienteId;
+            consulta.Paciente = paciente;
+            return consulta;
         }
     }
 }

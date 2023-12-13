@@ -24,10 +24,14 @@ namespace consulta_viva_API2.Repositories.Impl {
             return _context.Pacientes.ToList();
         }
 
-        public Consulta MarcarConsulta(Consulta consulta) {
+        public Consulta SalvarConsulta(Consulta consulta) {
             _context.Consultas.Add(consulta);
             _context.SaveChanges();
             return consulta;
+        }
+
+        public Paciente? BuscarPacientePorId(int pacienteId) {
+            return _context.Pacientes.Find(pacienteId);
         }
     }
 }
